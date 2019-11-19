@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Mobileiron 虚拟机迁移后IP地址失效解决方法]]></title>
+    <url>%2F2019%2F07%2F11%2FMobileiron%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E5%90%8EIP%E5%9C%B0%E5%9D%80%E5%A4%B1%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Product:Mobileiron Core、SentryVersion:AllPlatform:Virtual System Symptoms在虚拟机平台对Mobileiron服务器克隆或迁移后，会发现克隆后的服务器启动后无法通过网络正常访问。 Cause该问题是由于克隆或迁移后的虚拟机MAC地址已经自动更新，但服务器记录的网卡配置信息绑定了之前旧的MAC地址，这导致服务器会将该网卡应用新的网卡配置信息，默认为空的IP地址。进而出现了克隆后的服务器启动后无法通过网络正常访问的问题。 Solution进入Linux SHELL进入Linux SHELL的方法请咨询Mobileiron技术支持 修改网卡配置信息 使用ifconfig -a命令查看当前网卡配置信息，可以看到当前配置绑定的网卡是eth1 使用cd命令前往/etc/sysconfig/network-script目录下，可以看到目录中存在两个配置文件分别是ifcfg-eth0和ifcfg-eth1. 使用more命令分别查看两个配置文件信息，发现ifcfg-eth0包含旧的网卡配置信息，但ifcfg-eth1的配置信息则为默认设置。 使用vi编辑器对调两个网卡的配置信息，注意DEVICE参数保持不变。 接着使用service network restart命令重启网络即可]]></content>
+      <categories>
+        <category>Mobileiron</category>
+      </categories>
+      <tags>
+        <tag>Mobileiron</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SmartConsole无法看到日志]]></title>
+    <url>%2F2019%2F05%2F23%2FSmartConsole%E6%97%A0%E6%B3%95%E7%9C%8B%E5%88%B0%E6%97%A5%E5%BF%97%2F</url>
+    <content type="text"><![CDATA[Symptoms该问题发生在CheckPoint Security Management Server数据库迁移并升级至R80.10后，SmartConsole无法看到日志。通过tcpdump -i any port 257命令在防火墙上抓包可以看到防火墙有发送日志出来，但接收地址不正确。[Desktop\WechatIMG49.png] CauseSMS接口IP地址变更后，对应的SMS对象仍然为旧的IP地址，导致了防火墙无法正常发送日志到SMS。 Solution调整SMS对象的IP地址为正确的地址，并重新安装策略到防火墙即可。]]></content>
+      <categories>
+        <category>CheckPoint</category>
+        <category>SmartConsole</category>
+      </categories>
+      <tags>
+        <tag>CheckPoint</tag>
+        <tag>CheckPoitn log</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[CheckPoint Upgrade a VSX with Non-DMI configuration is not supported]]></title>
+    <url>%2F2019%2F05%2F22%2FCheckPoint%20Upgrade%20a%20VSX%20with%20Non-DMI%20configuration%20is%20not%20supported%2F</url>
+    <content type="text"><![CDATA[SymptomsWhen using the installer to upgrade the VSX firewall, use theinstaller verify &lt;number&gt;command to verify the installation package and get the following error: installer verify 1Info: Initiating verify of Check_Point_R80.20_T101_Fresh_Install_and_Upgrade_Security_Gateway.tgz…Interactive mode is enabled. Press CTRL + C to exit (this will not stop the operation)Result: Verifier results Package: R80.20 Fresh Install and Upgrade for Security Gateway and Standalone Clean Install: Installation is allowed. Upgrade: Upgrade a VSX with Non-DMI configuration is not supported. CauseThis VSX can’t upgrade since it’s Non-DMI configuration. A VSX deployment can be managed using one of the following interface schemes: Dedicated Management Interface (DMI): Uses a separate interface that is restricted to management traffic, such as provisioning, logging and monitoring Non-Dedicated Management Interface: Uses a shared internal or external interface that also carries routine user traffic Note: A non-DMI topology is where the VSX (VS number 0) doesn’t have a Dedicated Management Interface (DMI) through which it communicates with the management station without passing via other Virtual Devices - Virtual Router (VR) or Virtual Switch (VSW). Note2: In a Non-DMI configuration, the default route of the “default” instance (the VSX, VS number 0) is via wrp0/vpp0c0 interface. The VSX is connected via the VR (routing instance “vs1”). When the problem occurs, the default route entry of “vs1” is empty. Upgrade: Upgrade a VSX with Non-DMI configuration is not supported. SolutionOption 1. Fresh install this VSX with new version.Option 2. Rebuild this VSX and initialize it to DMI configuration. To define a Virtual Device with a shared interface:Select Create a Virtual Device.Select the Virtual Network Device type (Virtual Router or Virtual Switch). Select the shared physical interface to define a non-DMI gateway.Do not select the management interface if you want to define a Dedicated Management Interface (DMI) gateway. If you do not define a shared Virtual Device, a DMI gateway is created by default. Important - This setting cannot be changed after you complete the VSX Gateway Wizard. If you define a non-DMI gateway, you cannot change it to a DMI gateway later. Define the IP address and Net Mask for a Virtual Router.These options are not available for a Virtual Switch. Optional: Define a Default Gateway for a Virtual Router (DMI only).Selecting Virtual Systems Creation TemplatesThe Creation Templates page lets you provision predefined, default topology and routing definitions to Virtual Systems. This makes sure Virtual Systems are consistent and makes the definition process faster. You always have the option to override the default creation template when you create or change a Virtual System. The default Creation Templates are: Shared Interface: Virtual Systems share one external interface, but maintain separate internal interfaces.Separate Interfaces: Virtual Systems use their own separate internal and external interfaces. This template creates a Dedicated Management Interface (DMI) by default.If the default templates are not appropriate, you can create a custom configuration: Custom Configuration: Define Virtual System, Virtual Router, Virtual Switch, and Interface configurations.]]></content>
+      <categories>
+        <category>CheckPoint</category>
+        <category>VSX</category>
+      </categories>
+      <tags>
+        <tag>CheckPoint</tag>
+        <tag>VSX</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[简单通俗的理解和配置SwitchyOmega的虚情景模式]]></title>
+    <url>%2F2019%2F05%2F11%2F%E7%AE%80%E5%8D%95%E9%80%9A%E4%BF%97%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E9%85%8D%E7%BD%AESwitchyOmega%E7%9A%84%E8%99%9A%E6%83%85%E6%99%AF%E6%A8%A1%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[SwitchyOmega 的新版本增加了虚情景模式，该模式可以让我们更加高效的切换和配置自动代理。但是配置界面中的介绍让很多人一头雾水，官方的介绍是这么写的： 虚情景模式虚情景模式可以作为某个其他情景模式使用，并可以根据需要更改对象。一般用在自动切换中，这样就可以一次性更改多个条件对应的代理。 以下是官方的配置介绍，我估计没几个人能看明白这个选项应该怎么用吧。 作者这里给大家解释下这两个选项，希望有助于大家理解：首先我们要清楚知道，SwitchyOmega 默认的几种情景模式，这有助于我们理解虚情景模式。 代理服务器经过代理服务器访问网站。（解释：这就像过去我们在IE中设置的代理功能一样，不带切换规则，可以被自动切换模式所调用。一些朋友有多个代理服务器，这里就要配置多个。）自动切换模式根据多种条件，如域名或网址等自动选择情景模式。您也可以导入在线发布的切换规则（如 AutoProxy 列表）以简化设置。（解释：我们通常用在自动代理中配置很多切换列表，让浏览器可以根据网址URL、正则表达式、通配符等方式自动判断是否走代理。但如果我们在上面配置了多个代理服务器，通常我们会给每个代理服务器配置相对应的自动切换模式） PAC情景模式根据在线或本地的PAC脚本选择代理。（不太普遍，不再赘述） 理解了上面几种模式，再来聊虚情景模式就简单很多。虚情景模式就是以为了让你的多个代理服务器可以关联1个自动切换模式，这样省去了为每个代理服务器单独创建自动切换规则的配置。虚情景模式创建完成后，会自动关联所有代理服务器，所以配置页面中选择的意义不大（因为使用时可以随时快速切换）。使用逻辑如下图所示：配置步骤新建虚情景模式，不需要设置。配置自动切换模式，设置切换规则的情景模式为刚才创建的虚情景模式。我们日常使用的时候，默认要使用该自动切换模式。当我们需要切换代理的时候，直接点击虚情景模式下的下拉箭头，更换代理服务器即可。 迁移到虚情景模式至于迁移到虚情景模式按钮的作用，只是帮您一键修改旧的自动切换模式的情景模式从某个代理服务器修改为虚情景模式。]]></content>
+      <categories>
+        <category>Proxy</category>
+      </categories>
+      <tags>
+        <tag>Proxy</tag>
+        <tag>V2Ray</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Configure Auto Reply SMS BY Google Voice]]></title>
+    <url>%2F2019%2F05%2F10%2FConfigure%20Auto%20Reply%20SMS%20BY%20Google%20Voice%2F</url>
+    <content type="text"><![CDATA[Add the Email filter in the Gmail Create a filter (any text sent to a google voice number goes to your gmail with the following address appended to it) Matches: from:(@txt.voice.google.com) Do this: Skip Inbox, Apply label “autoreply” Add google scripts as a document type Go to Google DriveClick New –> More –> Connect more apps –> Search for “google apps scripts“ (by Google) and add it. Now create a new script: New –> More –> Google Apps Scripts. Name the script “Auto Replier“ Replace what you see with the code from below : 12345678910111213141516171819202122232425function autoReplier() &#123; var labelObj = GmailApp.getUserLabelByName('autoreply'); var gmailThreads; var messages; var sender; for (var gg = 0; gg &lt; labelObj.getUnreadCount(); gg++) &#123; gmailThreads = labelObj.getThreads()[gg]; messages = gmailThreads.getMessages(); for (var ii = 0; ii &lt; messages.length; ii++) &#123; if (messages[ii].isUnread()) &#123; msg = messages[ii].getPlainBody(); sender = messages[ii].getFrom().slice(16, 74); MailApp.sendEmail(sender, "Auto Reply", "Hi, I'm out of town till the end of the month. Talk to you then!"); messages[ii].markRead(); messages[ii].moveToTrash(); &#125; &#125; &#125;&#125; After you’ve saved the code, perform these steps: Click Edit Select Current Projects Triggers Select autoReplier, Time-driven, Minutes timer, Everyminute Hit save. Approve any permissions that pop up. Voila, now you have an auto reply system.If the script doesn’t work ,please try change the codesender = messages[ii].getFrom().slice(16, 74); tosender = messages[ii].getFrom();]]></content>
+      <categories>
+        <category>Google</category>
+      </categories>
+      <tags>
+        <tag>Google</tag>
+        <tag>Chrome</tag>
+      </tags>
+  </entry>
+</search>
