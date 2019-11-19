@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[How to Disable/Enable IP forwarding in Linux]]></title>
+    <url>%2F2019%2F11%2F19%2FHow%20to%20Disable%3AEnable%20IP%20forwarding%20in%20Linux%2F</url>
+    <content type="text"><![CDATA[Contents Current IP forwarding status Disable IP forwarding Enable IP forwardingThis article describes how to Disable or Enable an IP forwarding in Linux.Current IP forwarding statusRead a current state of IP forwarding:‘’’# sysctl net.ipv4.ip_forwardnet.ipv4.ip_forward = 1’’’Currently, the output number 1 indicates that the IP forwarding is enabled. The above value is read from the Linux proc file system and more precisely from the actual file /proc/sys/net/ipv4/ip_forward file:‘’’# cat /proc/sys/net/ipv4/ip_forward1’’’Disable IP forwardingTo disable IP forwarding on a running Linux system run:‘’’# sysctl -w net.ipv4.ip_forward=0net.ipv4.ip_forward = 0’’’The above command actually writes number 0 into the above mentioned file /proc/sys/net/ipv4/ip_forward. If from some reason the above command fails you can attempt to disable the IP forwarding manually by:‘’’echo 0 &gt; /proc/sys/net/ipv4/ip_forward’’’The above change is not reboot persistent. To permanently disable the IP forwarding on your Linux system edit /etc/sysctl.conf and add the following line:‘’’net.ipv4.ip_forward = 0’’’SUBSCRIBE TO NEWSLETTERSubscribe to Linux Career NEWSLETTER and receive latest Linux news, jobs, career advice and tutorials.Enable IP forwardingThe procedure to enable IP forwarding in Linux is the same as the above procedure to disable it, but instead, we use number 1 to turn IP forwarding ON.‘’’# sysctl -w net.ipv4.ip_forward=1net.ipv4.ip_forward = 1’’’or alternatively:‘echo 1 &gt; /proc/sys/net/ipv4/ip_forward’To make the change permanent insert or edit the following line in edit /etc/sysctl.conf:‘net.ipv4.ip_forward = 1’]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Mobileiron 虚拟机迁移后IP地址失效解决方法]]></title>
     <url>%2F2019%2F07%2F11%2FMobileiron%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E5%90%8EIP%E5%9C%B0%E5%9D%80%E5%A4%B1%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[Product:Mobileiron Core、SentryVersion:AllPlatform:Virtual System Symptoms在虚拟机平台对Mobileiron服务器克隆或迁移后，会发现克隆后的服务器启动后无法通过网络正常访问。 Cause该问题是由于克隆或迁移后的虚拟机MAC地址已经自动更新，但服务器记录的网卡配置信息绑定了之前旧的MAC地址，这导致服务器会将该网卡应用新的网卡配置信息，默认为空的IP地址。进而出现了克隆后的服务器启动后无法通过网络正常访问的问题。 Solution进入Linux SHELL进入Linux SHELL的方法请咨询Mobileiron技术支持 修改网卡配置信息 使用ifconfig -a命令查看当前网卡配置信息，可以看到当前配置绑定的网卡是eth1 使用cd命令前往/etc/sysconfig/network-script目录下，可以看到目录中存在两个配置文件分别是ifcfg-eth0和ifcfg-eth1. 使用more命令分别查看两个配置文件信息，发现ifcfg-eth0包含旧的网卡配置信息，但ifcfg-eth1的配置信息则为默认设置。 使用vi编辑器对调两个网卡的配置信息，注意DEVICE参数保持不变。 接着使用service network restart命令重启网络即可]]></content>
